@@ -12,6 +12,7 @@ import type * as actions from "../actions.js";
 import type * as agents from "../agents.js";
 import type * as auth from "../auth.js";
 import type * as helpers from "../helpers.js";
+import type * as ingest_recording from "../ingest_recording.js";
 import type * as ingestion from "../ingestion.js";
 import type * as queries from "../queries.js";
 import type * as queues from "../queues.js";
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   agents: typeof agents;
   auth: typeof auth;
   helpers: typeof helpers;
+  ingest_recording: typeof ingest_recording;
   ingestion: typeof ingestion;
   queries: typeof queries;
   queues: typeof queues;

@@ -1,6 +1,9 @@
 import { v } from "convex/values";
 import { action } from "./_generated/server";
-import { api } from "./_generated/api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { api as _api } from "./_generated/api";
+
+const api: any = _api;
 
 export const saveRecordingFromUrl = action({
   args: {
@@ -14,11 +17,6 @@ export const saveRecordingFromUrl = action({
     if (!response.ok) throw new Error(`Failed to fetch recording: ${response.statusText}`);
     const blob = await response.blob();
     const storageId = (await ctx.storage.store(blob)).toString();
-    return await ctx.runMutation(api.storage.saveRecording, {
-      storageId,
-      sessionId,
-      callId,
-      duration,
-    });
+    return await ctx.runMutation(api.storage.saveRecording, { storageId, sessionId, callId, duration });
   },
 });
