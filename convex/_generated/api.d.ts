@@ -14,7 +14,9 @@ import type * as helpers from "../helpers.js";
 import type * as ingestion from "../ingestion.js";
 import type * as queries from "../queries.js";
 import type * as queues from "../queues.js";
+import type * as reviews from "../reviews.js";
 import type * as routing from "../routing.js";
+import type * as sessions from "../sessions.js";
 
 import type {
   ApiFromModules,
@@ -29,7 +31,9 @@ declare const fullApi: ApiFromModules<{
   ingestion: typeof ingestion;
   queries: typeof queries;
   queues: typeof queues;
+  reviews: typeof reviews;
   routing: typeof routing;
+  sessions: typeof sessions;
 }>;
 
 /**
