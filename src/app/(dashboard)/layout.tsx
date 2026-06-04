@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Softphone from "@/components/softphone";
 import {
   Phone,
   PhoneIncoming,
@@ -61,7 +62,10 @@ export default function DashboardLayout({
           </Button>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto p-6">{children}</main>
+      <main className="flex-1 overflow-auto p-6">
+        {children}
+        <Softphone />
+      </main>
     </div>
   );
 }
