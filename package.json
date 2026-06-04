@@ -1,0 +1,7 @@
+{
+  "name": "callcenter",
+  "private": true,
+  "scripts": {
+    "graphify": "node tools/graphify/reason.js"
+  }
+}
