@@ -11,11 +11,14 @@ export default defineSchema({
     teamId: v.optional(v.id("teams")),
     imageUrl: v.optional(v.string()),
     lastAssignedAt: v.optional(v.number()),
+    passwordHash: v.optional(v.string()),
+    tokenIdentifier: v.optional(v.string()),
   })
     .index("by_email", ["email"])
     .index("by_status", ["status"])
     .index("by_team", ["teamId"])
-    .index("by_skill", ["skillTags"]),
+    .index("by_skill", ["skillTags"])
+    .index("by_token", ["tokenIdentifier"]),
 
   teams: defineTable({
     name: v.string(),

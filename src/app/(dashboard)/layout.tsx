@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAuth } from "@/components/auth-provider";
 import Softphone from "@/components/softphone";
 import {
   Phone,
@@ -22,6 +24,7 @@ import {
   Headphones,
   PanelLeftClose,
   PanelLeft,
+  User,
 } from "lucide-react";
 
 const navItems = [
@@ -32,13 +35,18 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const { agent, logout } = useAuth();
+
+  if (!agent) {
+    router.replace("/login");
+    return null;
+  }
+
+  const initials = agent.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2);
 
   return (
     <TooltipProvider delay={300}>
@@ -105,25 +113,35 @@ export default function DashboardLayout({
             })}
           </nav>
 
-          <div className={cn(
-            "border-t p-3",
-            collapsed && "flex justify-center",
-          )}>
-            {collapsed ? (
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground">
-                    <LogOut className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">Sign Out</TooltipContent>
-              </Tooltip>
-            ) : (
-              <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-9">
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </Button>
+          <div className="border-t p-3 space-y-2">
+            {!collapsed && (
+              <div className="flex items-center gap-3 px-2 py-1.5">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="text-xs bg-primary/10 text-primary">{initials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{agent.name}</p>
+                  <p className="text-xs text-muted-foreground capitalize">{agent.role}</p>
+                </div>
+              </div>
             )}
+            <div className={cn(collapsed && "flex justify-center")}>
+              {collapsed ? (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground" onClick={logout}>
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Sign Out</TooltipContent>
+                </Tooltip>
+              ) : (
+                <Button variant="ghost" className="w-full justify-start gap-3 text-muted-foreground h-9" onClick={logout}>
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              )}
+            </div>
           </div>
         </aside>
 
@@ -134,4 +152,8 @@ export default function DashboardLayout({
       </div>
     </TooltipProvider>
   );
+}
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return <LayoutContent>{children}</LayoutContent>;
 }

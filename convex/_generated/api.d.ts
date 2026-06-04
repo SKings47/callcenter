@@ -10,6 +10,7 @@
 
 import type * as actions from "../actions.js";
 import type * as agents from "../agents.js";
+import type * as auth from "../auth.js";
 import type * as helpers from "../helpers.js";
 import type * as ingestion from "../ingestion.js";
 import type * as queries from "../queries.js";
@@ -17,6 +18,9 @@ import type * as queues from "../queues.js";
 import type * as reviews from "../reviews.js";
 import type * as routing from "../routing.js";
 import type * as sessions from "../sessions.js";
+import type * as storage from "../storage.js";
+import type * as transcribe from "../transcribe.js";
+import type * as transcriptions from "../transcriptions.js";
 
 import type {
   ApiFromModules,
@@ -27,6 +31,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
   agents: typeof agents;
+  auth: typeof auth;
   helpers: typeof helpers;
   ingestion: typeof ingestion;
   queries: typeof queries;
@@ -34,6 +39,9 @@ declare const fullApi: ApiFromModules<{
   reviews: typeof reviews;
   routing: typeof routing;
   sessions: typeof sessions;
+  storage: typeof storage;
+  transcribe: typeof transcribe;
+  transcriptions: typeof transcriptions;
 }>;
 
 /**

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
+import { AuthProvider } from "@/components/auth-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ConvexClientProvider>
           <TooltipProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
             <Toaster richColors />
           </TooltipProvider>
         </ConvexClientProvider>

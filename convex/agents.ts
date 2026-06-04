@@ -62,14 +62,21 @@ export const createAgent = mutation({
   args: {
     name: v.string(),
     email: v.string(),
+    password: v.string(),
     role: v.union(v.literal("agent"), v.literal("supervisor"), v.literal("admin")),
     skillTags: v.array(v.string()),
     teamId: v.optional(v.id("teams")),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, { password, ...args }) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    const passwordHash = Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
+
     return await ctx.db.insert("agents", {
       ...args,
       status: "offline",
+      passwordHash,
     });
   },
 });
