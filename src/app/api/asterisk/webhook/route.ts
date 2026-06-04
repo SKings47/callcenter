@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchMutation } from "convex/nextjs";
+import { api } from "@/lib/convex";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
     const skillTag = body.skill_tag || body.SkillTag;
     const language = body.language || body.Language;
 
-    await fetchMutation("ingestion:ingestCallEvent", {
+    await fetchMutation(api.ingestion.ingestCallEvent, {
       source: "asterisk",
       callerNumber: callerId,
       sipLineId: channel,

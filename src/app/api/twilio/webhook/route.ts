@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchMutation } from "convex/nextjs";
+import { api } from "@/lib/convex";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const eventType = normalizeTwilioEvent(callStatus);
 
-    await fetchMutation("ingestion:ingestCallEvent", {
+    await fetchMutation(api.ingestion.ingestCallEvent, {
       source: "twilio",
       callerNumber,
       sipLineId: sipDomain,
