@@ -238,6 +238,59 @@ export default function ReviewsPage() {
                 </CardContent>
               </Card>
 
+              {reviewDetail.recordings?.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Mic className="h-5 w-5" />
+                      Recordings
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {reviewDetail.recordings.map((rec: any) => (
+                      <div key={rec._id} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">
+                            Recording {rec.transferContinuity ? "(transferred)" : ""}
+                            {rec.duration ? ` — ${Math.round(rec.duration / 1000)}s` : ""}
+                          </span>
+                        </div>
+                        {rec.storageUrl ? (
+                          <audio controls className="w-full" preload="none">
+                            <source src={rec.storageUrl} type="audio/webm" />
+                            <source src={rec.storageUrl} type="audio/wav" />
+                            Your browser does not support audio playback.
+                          </audio>
+                        ) : !rec.callerTrack && !rec.agentTrack ? (
+                          <p className="text-sm text-muted-foreground">
+                            Recording metadata saved, but audio file not yet uploaded
+                          </p>
+                        ) : (
+                          <div className="space-y-3">
+                            {rec.callerTrack && (
+                              <div>
+                                <p className="text-xs text-muted-foreground mb-1">Caller track</p>
+                                <audio controls className="w-full" preload="none">
+                                  <source src={rec.callerTrack} />
+                                </audio>
+                              </div>
+                            )}
+                            {rec.agentTrack && (
+                              <div>
+                                <p className="text-xs text-muted-foreground mb-1">Agent track</p>
+                                <audio controls className="w-full" preload="none">
+                                  <source src={rec.agentTrack} />
+                                </audio>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">

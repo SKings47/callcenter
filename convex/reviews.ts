@@ -75,6 +75,15 @@ export const getReview = query({
       .withIndex("by_session", (q: any) => q.eq("sessionId", review.sessionId))
       .collect();
 
+    const recordingsWithUrl = await Promise.all(
+      recordings.map(async (rec: any) => ({
+        ...rec,
+        storageUrl: rec.storageId
+          ? await ctx.storage.getUrl(rec.storageId)
+          : null,
+      })),
+    );
+
     return {
       ...review,
       agentName: agent?.name ?? "Unknown",
@@ -89,7 +98,7 @@ export const getReview = query({
       supervisorName: supervisor?.name ?? null,
       sessionStatus: session?.status ?? null,
       transcriptions,
-      recordings,
+      recordings: recordingsWithUrl,
     };
   },
 });
